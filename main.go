@@ -28,9 +28,9 @@ func main() {
 	// Produkte
 	v1Router.HandleFunc("/product/getall", productGetAllHandler).Methods(http.MethodGet)
 	v1Router.HandleFunc("/product/{id}/get", productGetHandler).Methods(http.MethodGet)
-	v1Router.HandleFunc("/product/add", nil).Methods(http.MethodPost)
-	v1Router.HandleFunc("/product/{id}/edit", nil).Methods(http.MethodPut)
-	v1Router.HandleFunc("/product/{id}/remove", nil).Methods(http.MethodDelete)
+	v1Router.HandleFunc("/product/add", productAddHandler).Methods(http.MethodPost)
+	v1Router.HandleFunc("/product/edit", productEditHandler).Methods(http.MethodPut)
+	v1Router.HandleFunc("/product/{id}/remove", productRemoveHandler).Methods(http.MethodDelete)
 
 	v2Router := router.PathPrefix("/api/v2").Subrouter()
 	v2Router.Use(authV2)
@@ -38,7 +38,7 @@ func main() {
 	v2Router.HandleFunc("/product/getall", nil).Methods(http.MethodGet)
 	v2Router.HandleFunc("/product/{id}/get", nil).Methods(http.MethodGet)
 	v2Router.HandleFunc("/product/add", nil).Methods(http.MethodPost)
-	v2Router.HandleFunc("/product/{id}/edit", nil).Methods(http.MethodPut)
+	v2Router.HandleFunc("/product/edit", nil).Methods(http.MethodPut)
 	v2Router.HandleFunc("/product/{id}/delete", nil).Methods(http.MethodDelete)
 	// Reviews
 	v2Router.HandleFunc("/product/{productid}/review/getall", nil).Methods(http.MethodGet)
