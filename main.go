@@ -21,7 +21,7 @@ func main() {
 	})
 
 	// no middleware
-	router.HandleFunc("/api/v2/authenticate", nil).Methods(http.MethodGet)
+	router.HandleFunc("/api/v2/authenticate", authenticateHandler).Methods(http.MethodGet)
 
 	v1Router := router.PathPrefix("/api/v1").Subrouter()
 	v1Router.Use(authV1)
@@ -35,16 +35,16 @@ func main() {
 	v2Router := router.PathPrefix("/api/v2").Subrouter()
 	v2Router.Use(authV2)
 	// Produkte
-	v2Router.HandleFunc("/product/getall", nil).Methods(http.MethodGet)
-	v2Router.HandleFunc("/product/{id}/get", nil).Methods(http.MethodGet)
-	v2Router.HandleFunc("/product/add", nil).Methods(http.MethodPost)
-	v2Router.HandleFunc("/product/edit", nil).Methods(http.MethodPut)
-	v2Router.HandleFunc("/product/{id}/delete", nil).Methods(http.MethodDelete)
+	v2Router.HandleFunc("/product/getall", productGetAllHandler).Methods(http.MethodGet)
+	v2Router.HandleFunc("/product/{id}/get", productGetHandler).Methods(http.MethodGet)
+	v2Router.HandleFunc("/product/add", productAddHandler).Methods(http.MethodPost)
+	v2Router.HandleFunc("/product/edit", productEditHandler).Methods(http.MethodPut)
+	v2Router.HandleFunc("/product/{id}/delete", productRemoveHandler).Methods(http.MethodDelete)
 	// Reviews
-	v2Router.HandleFunc("/product/{productid}/review/getall", nil).Methods(http.MethodGet)
-	v2Router.HandleFunc("/product/{productid}/review/{reviewid}/get", nil).Methods(http.MethodGet)
-	v2Router.HandleFunc("/product/{productid}/review/add", nil).Methods(http.MethodPost)
-	v2Router.HandleFunc("/product/{productid}/review/{reviewid}/edit", nil).Methods(http.MethodPut)
+	v2Router.HandleFunc("/product/{productid}/review/getall", productReviewGetAllHandler).Methods(http.MethodGet)
+	v2Router.HandleFunc("/product/{productid}/review/{reviewid}/get", productReviewGetHandler).Methods(http.MethodGet)
+	v2Router.HandleFunc("/product/{productid}/review/add", productReviewAddHandler).Methods(http.MethodPost)
+	v2Router.HandleFunc("/product/{productid}/review/{reviewid}/edit", productReviewEditHandler).Methods(http.MethodPut)
 
 	srv := http.Server{
 		Addr:         ":6789",

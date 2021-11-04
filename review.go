@@ -7,32 +7,41 @@ import (
 )
 
 type Review struct {
-	Id        uint32
-	ProductId uint32
-	Rating    uint8
-	Text      string
+	Id        uint32 `json:"id"`
+	ProductId uint32 `json:"product_id"`
+	Rating    uint8  `json:"rating"`
+	Text      string `json:"text"`
 }
 
 var (
 	reviewMut sync.Mutex
 	reviewId  uint32 = 100
-	reviews          = map[uint32]Review{}
+	reviews          = map[uint32]Review{
+		1: Review{
+			Id:        1,
+			ProductId: 1,
+			Rating:    3,
+			Text:      "Gelungenes Produkt zum fairen Preis, könnte allerdings länger haltbar sein.",
+		},
+	}
 )
 
 func getNextReviewId() uint32 {
 	return atomic.AddUint32(&reviewId, 1)
 }
 
-func GetAllReviews() []Review {
+func GetAllReviews(productId uint32) []Review {
 	reviewMut.Lock()
 	defer reviewMut.Unlock()
 
-	revs := make([]Review, 0, len(reviews))
+	revs := make([]Review, len(reviews))
 
 	i := 0
 	for _, v := range reviews {
-		revs[i] = v
-		i++
+		if v.ProductId == productId {
+			revs[i] = v
+			i++
+		}
 	}
 
 	return revs
