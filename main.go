@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,13 +10,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-/*
-
- */
+var port int
 
 func main() {
-	router := mux.NewRouter()
+	flag.IntVar(&port, "Der Port für die Anwendung", 6789, "Gib den Port an, welches genutzt werden soll")
+	flag.Parse()
 
+	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello World!")
 	})
@@ -47,12 +48,12 @@ func main() {
 	v2Router.HandleFunc("/product/{productid}/review/{reviewid}/edit", productReviewEditHandler).Methods(http.MethodPut)
 
 	srv := http.Server{
-		Addr:         ":6789",
+		Addr:         fmt.Sprintf(":%d", port),
 		Handler:      router,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 5 * time.Second,
 	}
 
-	fmt.Println("starting up server at port 6789...")
+	fmt.Printf("starting up server at port %d...\n", port)
 	log.Fatal(srv.ListenAndServe())
 }
