@@ -39,13 +39,19 @@ func authV2(next http.Handler) http.Handler {
 			return
 		}
 
-		apiKey, err := base64.StdEncoding.DecodeString(parts[1])
+		userPw, err := base64.StdEncoding.DecodeString(parts[1])
 		if err != nil {
 			http.Error(w, "Authentication failed (base64 decode failed)", http.StatusInternalServerError)
 			return
 		}
 
-		if !authenticateV1(string(apiKey)) {
+		parts = strings.Split(string(userPw), ":")
+		if len(parts) != 2 {
+			http.Error(w, "Authentication failed (malformed value)", http.StatusBadRequest)
+			return
+		}
+
+		if !authenticateV2(parts[1]) {
 			http.Error(w, "Authentication failed (API Key invalid)", http.StatusUnauthorized)
 			return
 		}
