@@ -29,7 +29,7 @@ func authV2(next http.Handler) http.Handler {
 
 		header := r.Header.Get("Authorization")
 		if header == "" {
-			http.Error(w, "Authentication failed (Temp Key missing)", http.StatusBadRequest)
+			http.Error(w, "Authentication failed (header missing)", http.StatusBadRequest)
 			return
 		}
 

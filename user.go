@@ -46,9 +46,6 @@ func authenticateV1(key string) bool {
 }
 
 func generateTempKey() (string, error) {
-	userMut.Lock()
-	defer userMut.Unlock()
-
 	b := make([]byte, 40)
 	_, err := rand.Read(b)
 	if err != nil {
@@ -66,15 +63,13 @@ func loginV2(key string) (string, error) {
 	if err != nil {
 		return "", nil
 	}
-	user := user{}
+	//user := user{}
 	for k, v := range users {
 		if v.apiKey == key {
-			user.tempKey = tempKey
-			user.name = users[k].name
-			user.apiKey = key
-			user.tempKeyExpires = time.Now().Add(time.Hour)
+			v.tempKey = tempKey
+			v.tempKeyExpires = time.Now().Add(time.Hour)
 
-			users[k] = user
+			users[k] = v
 		}
 	}
 

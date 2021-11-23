@@ -22,7 +22,7 @@ func main() {
 	})
 
 	// no middleware
-	router.HandleFunc("/api/v2/authenticate", authenticateHandler).Methods(http.MethodGet)
+	router.HandleFunc("/api/v2/authenticate", authenticateV2Handler).Methods(http.MethodGet)
 
 	v1Router := router.PathPrefix("/api/v1").Subrouter()
 	v1Router.Use(authV1)
