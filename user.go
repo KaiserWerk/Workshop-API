@@ -87,6 +87,9 @@ func authenticateV2(key string) bool {
 
 	for _, v := range users {
 		if v.tempKey == key {
+			if !v.tempKeyExpires.After(time.Now()) {
+				return false
+			}
 			return true
 		}
 	}
