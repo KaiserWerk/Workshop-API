@@ -9,7 +9,7 @@ import (
 )
 
 func productGetAllHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header.Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	defer r.Body.Close()
 	json, err := json.MarshalIndent(getAllProducts(), "", "  ")
 	if err != nil {
@@ -21,7 +21,7 @@ func productGetAllHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func productGetHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header.Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	id := vars["id"]
@@ -46,7 +46,7 @@ func productGetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func productAddHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header.Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	defer r.Body.Close()
 
 	var p Product

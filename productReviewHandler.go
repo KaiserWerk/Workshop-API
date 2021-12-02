@@ -9,7 +9,7 @@ import (
 )
 
 func productReviewGetAllHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header.Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	defer r.Body.Close()
 
 	vars := mux.Vars(r)
@@ -30,7 +30,7 @@ func productReviewGetAllHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func productReviewGetHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header.Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 

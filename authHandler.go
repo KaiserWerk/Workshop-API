@@ -12,7 +12,7 @@ type AccessToken struct {
 }
 
 func authenticateV2Handler(w http.ResponseWriter, r *http.Request) {
-	w.Header.Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	h := r.Header.Get("X-Api-Token")
 	if h == "" {
 		http.Error(w, "missing X-Api-Token header", http.StatusUnauthorized)
